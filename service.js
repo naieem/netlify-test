@@ -42,11 +42,14 @@ self.addEventListener('activate', async () => {
 
 self.addEventListener('push', function (event) {
     if (event.data) {
-        var data=event.data.json();
+        var data = event.data.json();
         console.log('Push event!! ', data);
-        self.registration.showNotification(data.title,{
-            body:"Notifi by supto"
-        })
+        event.waitUntil(
+            self.registration.showNotification(data.title, {
+                body: "Notifi by supto"
+            })
+        );
+
         // showLocalNotification("Yolo", event.data.text(), self.registration);
     } else {
         console.log('Push event but no data')
