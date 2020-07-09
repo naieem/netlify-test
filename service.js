@@ -14,7 +14,7 @@ const urlB64ToUint8Array = base64String => {
 }
 // saveSubscription saves the subscription to the backend
 const saveSubscription = async subscription => {
-    const SERVER_URL = 'http://localhost:4000/hoihoi'
+    const SERVER_URL = 'https://push-test-naieem.herokuapp.com/hoihoi'
     const response = await fetch(SERVER_URL, {
         method: 'post',
         headers: {
