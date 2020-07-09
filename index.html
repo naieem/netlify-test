@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://wchat.freshchat.com/js/widget.js"></script>
+    <script>
+        const check = () => {
+            if (!('serviceWorker' in navigator)) {
+                throw new Error('No Service Worker support!')
+            }
+            if (!('PushManager' in window)) {
+                throw new Error('No Push API Support!')
+            }
+        }
+        const registerServiceWorker = async () => {
+            const swRegistration = await navigator.serviceWorker.register('service.js')
+            return swRegistration
+        }
+        const requestNotificationPermission = async () => {
+            const permission = await window.Notification.requestPermission()
+            // value of permission can be 'granted', 'default', 'denied'
+            // granted: user has accepted the request
+            // default: user has dismissed the notification permission popup by clicking on x
+            // denied: user has denied the request.
+            if (permission !== 'granted') {
+                throw new Error('Permission not granted for Notification')
+            } else {
+                navigator.serviceWorker.getRegistration().then(function (reg) {
+                    var options = {
+                        body: 'Here is a notification body!',
+                        vibrate: [100, 50, 100],
+                        data: {
+                            dateOfArrival: Date.now(),
+                            primaryKey: 1
+                        }
+                    };
+                    reg.showNotification('Hello world!', options);
+                });
+            }
+        }
+        const main = async () => {
+            check()
+            const swRegistration = await registerServiceWorker()
+            const permission = await requestNotificationPermission()
+        }
+// main(); we will not call main in the beginning.
+    </script>
+</head>
+
+<body>
+    hello world
+    <button id="permission-btn" onclick="main()">Ask Permission</button>
+</body>
+<script>
+    window.fcWidget.init({
+        token: "c7c20a91-6f10-4616-a0fd-7f06ac5ef5b4",
+        host: "https://wchat.freshchat.com",
+        externalId: "john.doe1987",     // user’s id unique to your system
+        firstName: "John",              // user’s first name
+        lastName: "Doe",                // user’s last name
+        email: "john.doe@gmail.com",    // user’s email address
+        phone: "8668323090",            // phone number without country code
+        phoneCountryCode: "+1"          // phone’s country code
+    });
+    window.fcWidget.user.get(function (resp) {
+        var status = resp && resp.status,
+            data = resp && resp.data;
+        console.log(resp);
+        if (status !== 200) {
+            window.fcWidget.user.setProperties({
+                firstName: "John",              // user's first name
+                lastName: "Doe",                // user's last name
+                email: "john.doe@gmail.com",    // user's email address
+                phone: "8668323090",            // phone number without country code
+                phoneCountryCode: "+1",         // phone's country code
+                plan: "Estate",                 // user's meta property 1
+                status: "Active",               // user's meta property 2
+                cool_thing: "12th August"   // user's meta property 3
+            });
+            window.fcWidget.on('user:created', function (resp) {
+                var status = resp && resp.status,
+                    data = resp && resp.data;
+                console.log(resp);
+                if (status === 200) {
+                    if (data.restoreId) {
+                        // Update restoreId in your database
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+</html>
