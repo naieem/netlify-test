@@ -1,4 +1,4 @@
-const currentCacheVersion = "cache-v6";
+const currentCacheVersion = "cache-v7";
 // const expectedCaches = ['cache-v4'];
 var cacheAssets = [
     "/",
