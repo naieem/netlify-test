@@ -1,4 +1,4 @@
-const currentCacheVersion = "cache-1";
+const currentCacheVersion = "cache-v2";
 const expectedCaches = ['cache-v1'];
 
 self.addEventListener('install', event => {
