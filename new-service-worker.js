@@ -1,11 +1,15 @@
-const currentCacheVersion = "cache-v3";
-const expectedCaches = ['cache-v2'];
+const currentCacheVersion = "cache-v4";
+const expectedCaches = ['cache-v3'];
+var cacheAssets = [
+    "/",
+    "/form.html",
+];
 
 self.addEventListener('install', event => {
-    console.log('V2 installing…');
+    console.log('V4 installing…');
     event.waitUntil(
         caches.open(currentCacheVersion).then((cache) => {
-            cache.add('./form.html');
+            cache.addAll(cacheAssets);
             console.log("Cache installation success");
         })
     );
