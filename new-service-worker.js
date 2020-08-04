@@ -5,6 +5,7 @@ self.addEventListener('install', event => {
     console.log('V2 installing…');
     event.waitUntil(
         caches.open(currentCacheVersion).then((cache) => {
+            cache.add('./form,html');
             console.log("Cache installation success");
         })
     );
