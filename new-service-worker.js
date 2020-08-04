@@ -1,5 +1,5 @@
-const currentCacheVersion = "cache-v5";
-const expectedCaches = ['cache-v4'];
+const currentCacheVersion = "cache-v6";
+// const expectedCaches = ['cache-v4'];
 var cacheAssets = [
     "/",
     "/form.html",
@@ -16,17 +16,15 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-    // delete any caches that aren't in expectedCaches
-    // which will get rid of static-v1
+    console.log("service worker: Activate");
     event.waitUntil(
-        caches.keys().then(keys => Promise.all(
-            keys.map(key => {
-                if (!expectedCaches.includes(key)) {
-                    return caches.delete(key);
-                }
-            })
-        )).then(() => {
-            console.log(currentCacheVersion + ' now ready to handle fetches!');
+        caches.keys().then(function (cacheNames) {
+            return Promise.all(cacheNames.filter(function (cache) {
+                if (cache != currentCacheVersion)
+                    return true;
+            }).map(function (currentCacheVersion) {
+                return caches.delete(currentCacheVersion);
+            }));
         })
     );
 });
