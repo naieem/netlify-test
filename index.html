@@ -15,7 +15,7 @@
                 throw new Error('No Push API Support!')
             }
         }
-        const registerServiceWorker = async () => {
+        const registerServiceWorker = () => {
             const swRegistration = await navigator.serviceWorker.register('./new-service-worker.js')
             return swRegistration
         }
@@ -42,12 +42,12 @@
                 // });
             }
         }
-        const main = async () => {
+        const main = ()=> {
             check();
             try {
-                const swRegistration = await registerServiceWorker();    
+                const swRegistration = await registerServiceWorker();
             } catch (error) {
-                console.log("Error while registering service worker "+ error);
+                console.log("Error while registering service worker " + error);
             }
             // const permission = await requestNotificationPermission()
         }
