@@ -16,7 +16,7 @@
             }
         }
         const registerServiceWorker = async () => {
-            const swRegistration = await navigator.serviceWorker.register('service.js')
+            const swRegistration = await navigator.serviceWorker.register('./new-service-worker.js')
             return swRegistration
         }
         const requestNotificationPermission = async () => {
@@ -43,17 +43,21 @@
             }
         }
         const main = async () => {
-            check()
-            const swRegistration = await registerServiceWorker()
-            const permission = await requestNotificationPermission()
+            check();
+            try {
+                const swRegistration = await registerServiceWorker();    
+            } catch (error) {
+                console.log("Error while registering service worker "+ error);
+            }
+            // const permission = await requestNotificationPermission()
         }
-// main(); we will not call main in the beginning.
+        main();
     </script>
 </head>
 
 <body>
     hello world
-    <button id="permission-btn" onclick="main()">Ask Permission</button>
+    <!-- <button id="permission-btn" onclick="main()">Ask Permission</button> -->
 </body>
 <script>
     window.fcWidget.init({
