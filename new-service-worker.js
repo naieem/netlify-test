@@ -1,4 +1,4 @@
-const currentCacheVersion = "cache-v7";
+const currentCacheVersion = "cache-v8";
 // const expectedCaches = ['cache-v4'];
 var cacheAssets = [
     "/",
@@ -6,7 +6,7 @@ var cacheAssets = [
 ];
 
 self.addEventListener('install', event => {
-    console.log('V5 installing…');
+    console.log('V8 installing…');
     event.waitUntil(
         caches.open(currentCacheVersion).then((cache) => {
             cache.addAll(cacheAssets);
