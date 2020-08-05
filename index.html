@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://wchat.freshchat.com/js/widget.js"></script>
+<<<<<<< HEAD
 </head>
 
 <body>
@@ -28,6 +29,71 @@
             </button>
         </form>
     </div>
+=======
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./new-service-worker.js').then(function (registration) {
+                    // Registration was successful
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function (err) {
+                    // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+        // const check = () => {
+        //     if (!('serviceWorker' in navigator)) {
+        //         throw new Error('No Service Worker support!')
+        //     }
+        //     if (!('PushManager' in window)) {
+        //         throw new Error('No Push API Support!')
+        //     }
+        // }
+        // const registerServiceWorker = () => {
+        //     const swRegistration = navigator.serviceWorker.register('./new-service-worker.js')
+        //     return swRegistration
+        // }
+        // const requestNotificationPermission = async () => {
+        //     const permission = await window.Notification.requestPermission()
+        //     // value of permission can be 'granted', 'default', 'denied'
+        //     // granted: user has accepted the request
+        //     // default: user has dismissed the notification permission popup by clicking on x
+        //     // denied: user has denied the request.
+        //     if (permission !== 'granted') {
+        //         throw new Error('Permission not granted for Notification')
+        //     } else {
+        //         console.log("Permission Granted");
+        //         // navigator.serviceWorker.getRegistration().then(function (reg) {
+        //         //     var options = {
+        //         //         body: 'Here is a notification body!',
+        //         //         vibrate: [100, 50, 100],
+        //         //         data: {
+        //         //             dateOfArrival: Date.now(),
+        //         //             primaryKey: 1
+        //         //         }
+        //         //     };
+        //         //     reg.showNotification('Hello world!', options);
+        //         // });
+        //     }
+        // }
+        // const main = ()=> {
+        //     check();
+        //     try {
+        //         const swRegistration = await registerServiceWorker();
+        //     } catch (error) {
+        //         console.log("Error while registering service worker " + error);
+        //     }
+        //     // const permission = await requestNotificationPermission()
+        // }
+        // main();
+    </script>
+</head>
+
+<body>
+    this is crazy man
+    <!-- <button id="permission-btn" onclick="main()">Ask Permission</button> -->
+>>>>>>> 9e8d98c46ae14941545474b00a886c64142a209f
 </body>
 <script>
     window.fcWidget.init({
