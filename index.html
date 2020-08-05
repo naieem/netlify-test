@@ -6,63 +6,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://wchat.freshchat.com/js/widget.js"></script>
-    <script>
-        const check = () => {
-            if (!('serviceWorker' in navigator)) {
-                throw new Error('No Service Worker support!')
-            }
-            if (!('PushManager' in window)) {
-                throw new Error('No Push API Support!')
-            }
-        }
-        const registerServiceWorker = async () => {
-            const swRegistration = await navigator.serviceWorker.register('service.js')
-            return swRegistration
-        }
-        const requestNotificationPermission = async () => {
-            const permission = await window.Notification.requestPermission()
-            // value of permission can be 'granted', 'default', 'denied'
-            // granted: user has accepted the request
-            // default: user has dismissed the notification permission popup by clicking on x
-            // denied: user has denied the request.
-            if (permission !== 'granted') {
-                throw new Error('Permission not granted for Notification')
-            } else {
-                console.log("Permission Granted");
-                // navigator.serviceWorker.getRegistration().then(function (reg) {
-                //     var options = {
-                //         body: 'Here is a notification body!',
-                //         vibrate: [100, 50, 100],
-                //         data: {
-                //             dateOfArrival: Date.now(),
-                //             primaryKey: 1
-                //         }
-                //     };
-                //     reg.showNotification('Hello world!', options);
-                // });
-            }
-        }
-        const main = async () => {
-            check()
-            const swRegistration = await registerServiceWorker()
-            const permission = await requestNotificationPermission()
-        }
-// main(); we will not call main in the beginning.
-    </script>
 </head>
 
 <body>
-    hello world
-    <button id="permission-btn" onclick="main()">Ask Permission</button>
+    <!-- <button id="permission-btn" onclick="main()">Ask Permission</button> -->
+    <div class="container">
+        <div class="inbox">
+            <div class="inbox__people">
+                <h4>Active users</h4>
+            </div>
+            <div class="inbox__messages">
+                <div class="messages__history"></div>
+                <div class="fallback"></div>
+            </div>
+        </div>
+
+        <form class="message_form">
+            <input type="text" class="message_form__input" placeholder="Type a message" />
+            <button class="message_form__button" type="submit">
+                Enter
+            </button>
+        </form>
+    </div>
 </body>
 <script>
     window.fcWidget.init({
-        token: "c7c20a91-6f10-4616-a0fd-7f06ac5ef5b4",
+        token: "065814ec-09c8-42ec-97d7-f02616b6db43",
         host: "https://wchat.freshchat.com",
-        externalId: "john.doe1987",     // user’s id unique to your system
-        firstName: "John",              // user’s first name
-        lastName: "Doe",                // user’s last name
-        email: "john.doe@gmail.com",    // user’s email address
+        externalId: "naieem1212",     // user’s id unique to your system
+        firstName: "Halum",              // user's first name
+        lastName: "tingtong",                // user’s last name
+        email: "naieem.mahmud@selise.ch",    // user’s email address
         phone: "8668323090",            // phone number without country code
         phoneCountryCode: "+1"          // phone’s country code
     });
@@ -72,9 +46,9 @@
         console.log(resp);
         if (status !== 200) {
             window.fcWidget.user.setProperties({
-                firstName: "John",              // user's first name
-                lastName: "Doe",                // user's last name
-                email: "john.doe@gmail.com",    // user's email address
+                firstName: "Halum",              // user's first name
+                lastName: "tingtong",                // user's last name
+                email: "naieem.mahmud@selise.ch",    // user's email address
                 phone: "8668323090",            // phone number without country code
                 phoneCountryCode: "+1",         // phone's country code
                 plan: "Estate",                 // user's meta property 1
@@ -93,6 +67,155 @@
             });
         }
     });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script>
+    const socket = io('http://localhost:4000');
+
+    const inboxPeople = document.querySelector(".inbox__people");
+    const inputField = document.querySelector(".message_form__input");
+    const messageForm = document.querySelector(".message_form");
+    const messageBox = document.querySelector(".messages__history");
+    const fallback = document.querySelector(".fallback");
+
+    let userName = "";
+
+    const newUserConnected = (user) => {
+        userName = user || `User${Math.floor(Math.random() * 1000000)}`;
+        socket.emit("new user", userName);
+        addToUsersBox(userName);
+    };
+
+    const addToUsersBox = (userName) => {
+        if (!!document.querySelector(`.${userName}-userlist`)) {
+            return;
+        }
+
+        const userBox = `
+    <div class="chat_ib ${userName}-userlist">
+      <h5>${userName}</h5>
+    </div>
+  `;
+        inboxPeople.innerHTML += userBox;
+    };
+
+    const addNewMessage = ({ user, message }) => {
+        const time = new Date();
+        const formattedTime = time.toLocaleString("en-US", { hour: "numeric", minute: "numeric" });
+
+        const receivedMsg = `
+  <div class="incoming__message">
+    <div class="received__message">
+      <p>${message}</p>
+      <div class="message__info">
+        <span class="message__author">${user}</span>
+        <span class="time_date">${formattedTime}</span>
+      </div>
+    </div>
+  </div>`;
+
+        const myMsg = `
+  <div class="outgoing__message">
+    <div class="sent__message">
+      <p>${message}</p>
+      <div class="message__info">
+        <span class="time_date">${formattedTime}</span>
+      </div>
+    </div>
+  </div>`;
+
+        messageBox.innerHTML += user === userName ? myMsg : receivedMsg;
+    };
+
+    // new user is created so we generate nickname and emit event
+    newUserConnected();
+
+    messageForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!inputField.value) {
+            return;
+        }
+
+        socket.emit("chat message", {
+            message: inputField.value,
+            nick: userName,
+        });
+
+        inputField.value = "";
+    });
+
+    inputField.addEventListener("keyup", () => {
+        socket.emit("typing", {
+            isTyping: inputField.value.length > 0,
+            nick: userName,
+        });
+    });
+
+    socket.on("new user", function (data) {
+        data.map((user) => addToUsersBox(user));
+    });
+
+    socket.on("user disconnected", function (userName) {
+        document.querySelector(`.${userName}-userlist`).remove();
+    });
+
+    socket.on("chat message", function (data) {
+        addNewMessage({ user: data.nick, message: data.message });
+    });
+
+
+    socket.on("typing", function (data) {
+        const { isTyping, nick } = data;
+
+        if (!isTyping) {
+            fallback.innerHTML = "";
+            return;
+        }
+
+        fallback.innerHTML = `<p>${nick} is typing...</p>`;
+    });
+
+        // const check = () => {
+        //     if (!('serviceWorker' in navigator)) {
+        //         throw new Error('No Service Worker support!')
+        //     }
+        //     if (!('PushManager' in window)) {
+        //         throw new Error('No Push API Support!')
+        //     }
+        // }
+        // const registerServiceWorker = async () => {
+        //     const swRegistration = await navigator.serviceWorker.register('service.js')
+        //     return swRegistration
+        // }
+        // const requestNotificationPermission = async () => {
+        //     const permission = await window.Notification.requestPermission()
+        //     // value of permission can be 'granted', 'default', 'denied'
+        //     // granted: user has accepted the request
+        //     // default: user has dismissed the notification permission popup by clicking on x
+        //     // denied: user has denied the request.
+        //     if (permission !== 'granted') {
+        //         throw new Error('Permission not granted for Notification')
+        //     } else {
+        //         console.log("Permission Granted");
+        //         // navigator.serviceWorker.getRegistration().then(function (reg) {
+        //         //     var options = {
+        //         //         body: 'Here is a notification body!',
+        //         //         vibrate: [100, 50, 100],
+        //         //         data: {
+        //         //             dateOfArrival: Date.now(),
+        //         //             primaryKey: 1
+        //         //         }
+        //         //     };
+        //         //     reg.showNotification('Hello world!', options);
+        //         // });
+        //     }
+        // }
+        // const main = async () => {
+        //     check()
+        //     const swRegistration = await registerServiceWorker()
+        //     const permission = await requestNotificationPermission()
+        // }
+// main(); we will not call main in the beginning.
 </script>
 
 </html>

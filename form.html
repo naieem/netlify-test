@@ -75,7 +75,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-font-smoothing: antialiased;
             -o-font-smoothing: antialiased;
-            font-smoothing: antialiased;
+            -webkit-font-smoothing: antialiased;
             text-rendering: optimizeLegibility;
         }
 
@@ -86,34 +86,34 @@
             position: relative;
         }
 
-        #contact input[type="text"],
-        #contact input[type="email"],
-        #contact input[type="tel"],
-        #contact input[type="url"],
-        #contact textarea,
-        #contact button[type="submit"] {
+        #devops_form input[type="text"],
+        #devops_form input[type="email"],
+        #devops_form input[type="tel"],
+        #devops_form input[type="url"],
+        #devops_form textarea,
+        #devops_form button[type="submit"] {
             font: 400 12px/16px "Roboto", Helvetica, Arial, sans-serif;
         }
 
-        #contact {
+        #devops_form {
             background: #F9F9F9;
             padding: 25px;
-            margin: 150px 0;
+            margin: 50px 0 10px;
             box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
         }
 
-        #contact h3 {
+        #devops_form h3 {
             display: block;
             font-size: 30px;
             font-weight: 300;
             margin-bottom: 10px;
         }
 
-        #contact h4 {
+        #devops_form h4 {
             margin: 5px 0 15px;
             display: block;
-            font-size: 13px;
-            font-weight: 400;
+            font-size: 15px;
+            font-weight: 700;
         }
 
         fieldset {
@@ -124,11 +124,15 @@
             width: 100%;
         }
 
-        #contact input[type="text"],
-        #contact input[type="email"],
-        #contact input[type="tel"],
-        #contact input[type="url"],
-        #contact textarea {
+        #devops_form label {
+            display: block;
+        }
+
+        #devops_form input[type="text"],
+        #devops_form input[type="email"],
+        #devops_form input[type="tel"],
+        #devops_form input[type="url"],
+        #devops_form textarea {
             width: 100%;
             border: 1px solid #ccc;
             background: #FFF;
@@ -136,24 +140,103 @@
             padding: 10px;
         }
 
-        #contact input[type="text"]:hover,
-        #contact input[type="email"]:hover,
-        #contact input[type="tel"]:hover,
-        #contact input[type="url"]:hover,
-        #contact textarea:hover {
+        #devops_form input[type="text"]:hover,
+        #devops_form input[type="email"]:hover,
+        #devops_form input[type="tel"]:hover,
+        #devops_form input[type="url"]:hover,
+        #devops_form textarea:hover {
             -webkit-transition: border-color 0.3s ease-in-out;
             -moz-transition: border-color 0.3s ease-in-out;
             transition: border-color 0.3s ease-in-out;
             border: 1px solid #aaa;
         }
 
-        #contact textarea {
+        .list_option {
+            display: block;
+            font-size: 16px;
+            font-family: sans-serif;
+            font-weight: 700;
+            color: #444;
+            line-height: 1.3;
+            padding: .6em 1.4em .5em .8em;
+            width: 100%;
+            max-width: 100%;
+            /* useful when width is set to anything other than 100% */
+            box-sizing: border-box;
+            margin: 0;
+            border: 1px solid #aaa;
+            box-shadow: 0 1px 0 1px rgba(0, 0, 0, .04);
+            border-radius: .5em;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+            background-color: #fff;
+            /* note: bg image below uses 2 urls. The first is an svg data uri for the arrow icon, and the second is the gradient. 
+        for the icon, if you want to change the color, be sure to use `%23` instead of `#`, since it's a url. You can also swap in a different svg icon or an external image reference
+        
+    */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+                linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+            background-repeat: no-repeat, repeat;
+            /* arrow icon position (1em from the right, 50% vertical) , then gradient position*/
+            background-position: right .7em top 50%, 0 0;
+            /* icon size, then gradient */
+            background-size: .65em auto, 100%;
+        }
+
+        /* Hide arrow icon in IE browsers */
+        .list_option::-ms-expand {
+            display: none;
+        }
+
+        /* Hover style */
+        .list_option:hover {
+            border-color: #888;
+        }
+
+        /* Focus style */
+        .list_option:focus {
+            border-color: #aaa;
+            /* It'd be nice to use -webkit-focus-ring-color here but it doesn't work on box-shadow */
+            box-shadow: 0 0 1px 3px rgba(59, 153, 252, .7);
+            box-shadow: 0 0 0 3px -moz-mac-focusring;
+            color: #222;
+            outline: none;
+        }
+
+        /* Set options to normal weight */
+        .list_option option {
+            font-weight: normal;
+        }
+
+        /* Support for rtl text, explicit support for Arabic and Hebrew */
+        *[dir="rtl"] .list_option,
+        :root:lang(ar) .list_option,
+        :root:lang(iw) .list_option {
+            background-position: left .7em top 50%, 0 0;
+            padding: .6em .8em .5em 1.4em;
+        }
+
+        /* Disabled styles */
+        .list_option:disabled,
+        .list_option[aria-disabled=true] {
+            color: graytext;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22graytext%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+                linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+        }
+
+        .list_option:disabled:hover,
+        .list_option[aria-disabled=true] {
+            border-color: #aaa;
+        }
+
+        #devops_form textarea {
             height: 100px;
             max-width: 100%;
             resize: none;
         }
 
-        #contact button[type="submit"] {
+        #devops_form button[type="submit"] {
             cursor: pointer;
             width: 100%;
             border: none;
@@ -164,14 +247,14 @@
             font-size: 15px;
         }
 
-        #contact button[type="submit"]:hover {
+        #devops_form button[type="submit"]:hover {
             background: #43A047;
             -webkit-transition: background 0.3s ease-in-out;
             -moz-transition: background 0.3s ease-in-out;
             transition: background-color 0.3s ease-in-out;
         }
 
-        #contact button[type="submit"]:active {
+        #devops_form button[type="submit"]:active {
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
@@ -179,10 +262,16 @@
             text-align: center;
         }
 
-        #contact input:focus,
-        #contact textarea:focus {
+        #devops_form input:focus,
+        #devops_form textarea:focus {
             outline: 0;
             border: 1px solid #aaa;
+        }
+
+        .attachement-container {
+            border: 1px dashed gray !important;
+            padding: 20px;
+            text-align: center;
         }
 
         ::-webkit-input-placeholder {
@@ -207,55 +296,64 @@
         <div class="crazy-modal-content">
             <span class="close">&times;</span>
             <div class="container">
-                <form id="contact" action="" method="post">
-                    <h4>Contact us for custom quote</h4>
+                <form autocomplete="off" id="devops_form" enctype="multipart/form-data" method="post">
+                    <h4>Add new ticket to devops</h4>
+                    <!-- user email -->
                     <fieldset>
-                        <input placeholder="Your name" type="text" tabindex="1" required autofocus>
+                        <input placeholder="Users Email Address" type="email" name="email" value="{{user.email}}"
+                            tabindex="1" required autofocus>
                     </fieldset>
+                    <!-- title -->
                     <fieldset>
-                        <input placeholder="Your Email Address" type="email" tabindex="2" required>
+                        <input placeholder="Title" type="text" tabindex="2" name="title" required>
                     </fieldset>
+                    <!-- severity level -->
                     <fieldset>
-                        <input placeholder="Your Phone Number (optional)" type="tel" tabindex="3" required>
+                        <label>Severity Level</label>
+                        <select name="severityLevel" class="list_option" tabindex="3">
+                            <option value="1-Critical">Critical</option>
+                            <option value="2-High">High</option>
+                            <option value="3-Medium">Medium</option>
+                            <option value="4-Low">Low</option>
+                        </select>
                     </fieldset>
+                    <!-- description -->
                     <fieldset>
-                        <input placeholder="Your Web Site (optional)" type="url" tabindex="4" required>
+                        <textarea name="description" tabindex="4" placeholder="Type description here...." tabindex="5"
+                            required></textarea>
                     </fieldset>
-                    <fieldset>
-                        <textarea placeholder="Type your message here...." tabindex="5" required></textarea>
+                    <!--  attachement -->
+                    <fieldset class="attachement-container">
+                        <label for="files">Attachement:</label>
+                        <input type="file" tabindex="5" id="file" name="file" accept="image/png, image/jpeg">
                     </fieldset>
+                    <!-- submit button -->
                     <fieldset>
-                        <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">Submit</button>
+                        <button name="submit" type="submit" id="contact-submit" tabindex="6">Submit</button>
                     </fieldset>
                 </form>
             </div>
         </div>
     </div>
-    <script>
-        var modal = document.getElementById("myModal");
-        // Get the button that opens the modal
-        var btn = document.getElementById("myBtn");
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-        var channelHide=document.getElementById("ember242");
-        // When the user clicks the button, open the modal 
-        btn.onclick = function () {
-            modal.style.display = "block";
-            channelHide.style.display="none";
-        }
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function () {
-            modal.style.display = "none";
-            channelHide.style.display="block";
-        }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function (event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-                channelHide.style.display="block";
-            }
-        }
+    <script>
+        var serializefiles = function (form) {
+            // var obj = $(this);
+            /* ADD FILE TO PARAM AJAX */
+            var formData = new FormData();
+            $.each(form.find("input[type='file']"), function (i, tag) {
+                debugger;
+                $.each($(tag)[0].files, function (i, file) {
+                    formData.append(tag.name, file);
+                });
+            });
+            var params = form.serializeArray();
+            $.each(params, function (i, val) {
+                formData.append(val.name, val.value);
+            });
+            return formData;
+        };
         var makeRequest = function () {
             jQuery.ajax({
                 method: "POST",
@@ -271,6 +369,53 @@
             });
         };
         makeRequest();
+        $(document).ready(function () {
+            var files = [];
+            var modal = $('#myModal');
+            // $('.user_email').val(user.email);
+            // Get the button that opens the modal
+            var btn = $('#myBtn');
+            // Get the < span > element that closes the modal
+            var span = $(".close");
+            var channelHide = $(".ui-chat");
+            console.log("ready!");
+            // show modal button click
+            btn.click(function (ev) {
+                modal.show();
+                channelHide.hide();
+            });
+            // close button click event
+            span.click(function (ev) {
+                modal.hide();
+                channelHide.show();
+            });
+            // form submit action
+            $("#devops_form").submit(function (event) {
+                event.preventDefault();
+                var formData = serializefiles($("#devops_form"));
+                $.ajax({
+                    url: 'https://freshchat-devops-nestjs-supto.herokuapp.com/devops/CreateNewTicket',
+                    headers: {
+                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwcm9qZWN0TmFtZSI6IklHQjJCIiwiaWF0IjoxNTk0ODI5MTQ1fQ.LsMKyOQnyftzq2HmRIyBCtzv6reFKWTmqRGceXn2lUM',
+                    },
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    method: 'POST',
+                    type: 'POST', // For jQuery < 1.9
+                    success: function (data) {
+                        debugger;
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+            // $('input[type="file"]').change(function (e) {
+            //     files.push(e.target.files[0]);
+            // });
+        });
     </script>
 </body>
 
